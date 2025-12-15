@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>沖縄不動産一括検索</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- ヘッダー -->
+        <header class="app-header">
+            <h1>沖縄不動産一括検索</h1>
+            <div id="header-controls" class="hidden">
+                <button id="back-button" class="icon-button">
+                    <span class="material-icons">arrow_back</span> 戻る
+                </button>
+                <div id="favorites-section">
+                    <button id="fav-menu-button" class="text-button">お気に入り条件</button>
+                    <div id="fav-dropdown" class="dropdown hidden">
+                        <ul id="fav-list"></ul>
+                        <div class="fav-save-area">
+                            <input type="text" id="fav-name-input" placeholder="条件名を入力">
+                            <button id="save-fav-button">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- フェーズ1: トップ画面 (種別選択) -->
+        <main id="view-home" class="view active">
+            <div class="category-group">
+                <h2 class="category-title">借りる</h2>
+                <div class="button-grid">
+                    <button class="type-btn" data-type="rent_residence" data-mode="rent">
+                        <span class="icon">🏠</span>
+                        <span class="label">住居用</span>
+                    </button>
+                    <button class="type-btn" data-type="rent_business" data-mode="rent">
+                        <span class="icon">🏢</span>
+                        <span class="label">事業用</span>
+                    </button>
+                    <button class="type-btn" data-type="rent_land" data-mode="rent">
+                        <span class="icon">🌲</span>
+                        <span class="label">土地</span>
+                    </button>
+                    <button class="type-btn" data-type="rent_parking" data-mode="rent">
+                        <span class="icon">🚗</span>
+                        <span class="label">駐車場</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="category-group">
+                <h2 class="category-title">買う</h2>
+                <div class="button-grid">
+                    <button class="type-btn" data-type="buy_land" data-mode="buy">
+                        <span class="icon">xim</span>
+                        <span class="label">土地</span>
+                    </button>
+                    <button class="type-btn" data-type="buy_mansion" data-mode="buy">
+                        <span class="icon">🏢</span>
+                        <span class="label">マンション</span>
+                    </button>
+                    <button class="type-btn" data-type="buy_house" data-mode="buy">
+                        <span class="icon">🏠</span>
+                        <span class="label">一戸建て</span>
+                    </button>
+                    <button class="type-btn" data-type="buy_other" data-mode="buy">
+                        <span class="icon">💰</span>
+                        <span class="label">収益物件・他</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- フェーズ2: 検索条件入力フォーム -->
+        <main id="view-search" class="view">
+            <h2 id="search-title" class="section-title">条件設定</h2>
+            
+            <div class="form-container">
+                <!-- エリア選択 -->
+                <div class="form-group">
+                    <label>エリア</label>
+                    <select id="area-select">
+                        <option value="naha">那覇市</option>
+                        <option value="urasoe">浦添市</option>
+                        <option value="ginowan">宜野湾市</option>
+                        <option value="okinawa">沖縄市</option>
+                        <option value="tomigusuku">豊見城市</option>
+                        <option value="itoman">糸満市</option>
+                        <option value="nanjo">南城市</option>
+                        <option value="uruma">うるま市</option>
+                        <option value="yonabaru">与那原町</option>
+                        <option value="haebaru">南風原町</option>
+                        <option value="chatan">北谷町</option>
+                        <option value="kadena">嘉手納町</option>
+                        <option value="nishihara">西原町</option>
+                    </select>
+                </div>
+
+                <!-- 価格/家賃選択 -->
+                <div class="form-group">
+                    <label id="price-label">お家賃</label>
+                    <div class="price-range">
+                        <select id="price-min"></select>
+                        <span>〜</span>
+                        <select id="price-max"></select>
+                    </div>
+                </div>
+
+                <!-- 間取り選択 (条件により表示/非表示) -->
+                <div id="madori-group" class="form-group">
+                    <label>間取り (複数選択可)</label>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-label"><input type="checkbox" name="madori" value="1r_1k"> 1R / 1K</label>
+                        <label class="checkbox-label"><input type="checkbox" name="madori" value="1ldk_2k"> 1LDK / 2K</label>
+                        <label class="checkbox-label"><input type="checkbox" name="madori" value="2ldk_3k"> 2LDK / 3K</label>
+                        <label class="checkbox-label"><input type="checkbox" name="madori" value="3ldk_4k"> 3LDK / 4K</label>
+                        <label class="checkbox-label"><input type="checkbox" name="madori" value="4ldk_over"> 4LDK〜</label>
+                    </div>
+                </div>
+
+                <!-- フェーズ3: 検索実行ボタン -->
+                <div class="action-area">
+                    <p class="notice-text">※初回はポップアップブロックの解除が必要です</p>
+                    <button id="search-button" class="primary-button">
+                        この条件で5サイトまとめて検索
+                        <span class="material-icons">open_in_new</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="script.js"></script>
+</body>
+</html>
