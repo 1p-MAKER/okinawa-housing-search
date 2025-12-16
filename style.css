@@ -418,6 +418,11 @@ select {
     align-items: center;
     position: relative;
     margin-bottom: 20px;
+    background-color: var(--primary-color);
+    /* Added for contrast with white text */
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .app-header h1 {
@@ -426,6 +431,40 @@ select {
     color: white;
     /* Requested White Text */
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile Optimization */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .app-header {
+        padding: 12px;
+        margin-bottom: 16px;
+    }
+
+    .app-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .type-btn {
+        padding: 16px 8px;
+    }
+
+    .type-btn .icon {
+        font-size: 2rem;
+    }
+
+    .type-btn .label {
+        font-size: 1rem;
+    }
+
+    .primary-button,
+    .secondary-button {
+        padding: 14px;
+        font-size: 1rem;
+    }
 }
 
 /* Footer Quotes */
