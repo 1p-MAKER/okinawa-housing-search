@@ -113,6 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Search Execution Logic ---
+    const resultContainer = document.getElementById('result-links');
+    const linksList = document.getElementById('links-list');
+
     searchButton.addEventListener('click', executeSearch);
 
     function executeSearch() {
@@ -132,17 +135,25 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Open URLs
-        // Security: Open in sequence. Some browsers may block subsequent popups.
-        let blocked = false;
+        // Render Links
+        linksList.innerHTML = ''; // Clear previous
         urls.forEach((item) => {
-            const win = window.open(item.url, '_blank');
-            if (!win) blocked = true;
+            const a = document.createElement('a');
+            a.href = item.url;
+            a.target = '_blank';
+            a.className = 'link-btn';
+
+            // Site Name + Icon (simple text for now)
+            a.innerHTML = `<span class="site-name">${item.name}</span> で見る`;
+
+            linksList.appendChild(a);
         });
 
-        if (blocked) {
-            alert('ポップアップがブロックされました。ブラウザ設定でこのサイトのポップアップを許可してください。');
-        }
+        // Show Container
+        resultContainer.classList.remove('hidden');
+
+        // Scroll to results
+        resultContainer.scrollIntoView({ behavior: 'smooth' });
     }
 
     // --- URL Generator Functions ---

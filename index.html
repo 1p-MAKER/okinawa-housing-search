@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>沖縄不動産一括検索</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="app-container">
         <!-- ヘッダー -->
@@ -78,7 +80,7 @@
         <!-- フェーズ2: 検索条件入力フォーム -->
         <main id="view-search" class="view">
             <h2 id="search-title" class="section-title">条件設定</h2>
-            
+
             <div class="form-container">
                 <!-- エリア選択 -->
                 <div class="form-group">
@@ -114,21 +116,30 @@
                 <div id="madori-group" class="form-group">
                     <label>間取り (複数選択可)</label>
                     <div class="checkbox-grid">
-                        <label class="checkbox-label"><input type="checkbox" name="madori" value="1r_1k"> 1R / 1K</label>
-                        <label class="checkbox-label"><input type="checkbox" name="madori" value="1ldk_2k"> 1LDK / 2K</label>
-                        <label class="checkbox-label"><input type="checkbox" name="madori" value="2ldk_3k"> 2LDK / 3K</label>
-                        <label class="checkbox-label"><input type="checkbox" name="madori" value="3ldk_4k"> 3LDK / 4K</label>
-                        <label class="checkbox-label"><input type="checkbox" name="madori" value="4ldk_over"> 4LDK〜</label>
+                        <label class="checkbox-label"><input type="checkbox" name="madori" value="1r_1k"> 1R /
+                            1K</label>
+                        <label class="checkbox-label"><input type="checkbox" name="madori" value="1ldk_2k"> 1LDK /
+                            2K</label>
+                        <label class="checkbox-label"><input type="checkbox" name="madori" value="2ldk_3k"> 2LDK /
+                            3K</label>
+                        <label class="checkbox-label"><input type="checkbox" name="madori" value="3ldk_4k"> 3LDK /
+                            4K</label>
+                        <label class="checkbox-label"><input type="checkbox" name="madori" value="4ldk_over">
+                            4LDK〜</label>
                     </div>
                 </div>
 
                 <!-- フェーズ3: 検索実行ボタン -->
                 <div class="action-area">
-                    <p class="notice-text">※初回はポップアップブロックの解除が必要です</p>
                     <button id="search-button" class="primary-button">
-                        この条件で5サイトまとめて検索
-                        <span class="material-icons">open_in_new</span>
+                        検索結果を表示
+                        <span class="material-icons">search</span>
                     </button>
+                    <!-- 検索結果リンク表示エリア -->
+                    <div id="result-links" class="result-links-container hidden">
+                        <h3>以下のリンクから検索結果へ飛べます</h3>
+                        <div id="links-list"></div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -138,4 +149,5 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="script.js"></script>
 </body>
+
 </html>
