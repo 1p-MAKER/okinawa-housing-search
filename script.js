@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
             div.appendChild(a); // Append link to the container
 
             // Add Warning if needed
-            const warningText = getWarningMessage(item.name); // Use item.name as site ID
+            const warningText = getWarningMessage(item.id); // Use item.id (english) for logic
             if (warningText) {
                 const warnP = document.createElement('p');
                 warnP.className = 'warning-text';
@@ -182,20 +182,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function generateUrls(state) {
         const urls = [];
 
-        // 1. GooHome (沖縄)
-        urls.push({ name: 'Goohome', url: getGoohomeUrl(state) });
+        // 1. GooHome (沖縄) -> グーホーム
+        urls.push({ id: 'goohome', name: 'グーホーム', url: getGoohomeUrl(state) });
 
-        // 2. Uchina Life (沖縄)
-        urls.push({ name: 'Uchina', url: getUchinaUrl(state) });
+        // 2. Uchina Life (沖縄) -> うちなーらいふ
+        urls.push({ id: 'uchina', name: 'うちなーらいふ', url: getUchinaUrl(state) });
 
-        // 3. SUUMO (全国)
-        urls.push({ name: 'SUUMO', url: getSuumoUrl(state) });
+        // 3. SUUMO (全国) -> SUUMO (Keep as is or Katakana? User didn't specify, likely standard)
+        urls.push({ id: 'suumo', name: 'SUUMO', url: getSuumoUrl(state) });
 
-        // 4. AtHome (全国)
-        urls.push({ name: 'AtHome', url: getAthomeUrl(state) });
+        // 4. AtHome (全国) -> アットホーム
+        urls.push({ id: 'athome', name: 'アットホーム', url: getAthomeUrl(state) });
 
-        // 5. LIFULL HOME'S (全国)
-        urls.push({ name: 'Homes', url: getHomesUrl(state) });
+        // 5. LIFULL HOME'S (全国) -> ホームズ
+        urls.push({ id: 'homes', name: 'ホームズ', url: getHomesUrl(state) });
 
         return urls;
     }
