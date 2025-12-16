@@ -25,12 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchButton = document.getElementById('search-button');
     const areaSelect = document.getElementById('area-select');
 
-    // Favorites Elements
-    const favMenuButton = document.getElementById('fav-menu-button');
-    const favDropdown = document.getElementById('fav-dropdown');
-    const favList = document.getElementById('fav-list');
-    const favNameInput = document.getElementById('fav-name-input');
-    const saveFavButton = document.getElementById('save-fav-button');
+    // Favorites Elements (Legacy Removed)
+    // const favMenuButton = document.getElementById('fav-menu-button');
+    // const favDropdown = document.getElementById('fav-dropdown'); 
+    // ...
 
     // --- Price Options Configuration ---
     const RENT_PRICES = [
