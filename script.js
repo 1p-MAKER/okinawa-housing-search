@@ -290,78 +290,106 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- LocalStorage Favorites ---
     const STORAGE_KEY = 'okinawa_housing_favs';
+    const savedConditionsArea = document.getElementById('saved-conditions-area');
+    const savedTagsContainer = document.getElementById('saved-tags');
+    const saveCurrentBtn = document.getElementById('save-current-btn');
 
-    favMenuButton.addEventListener('click', () => {
-        favDropdown.classList.toggle('hidden');
-        renderFavList();
-    });
+    // Load saved data on init
+    renderSavedTags();
 
-    saveFavButton.addEventListener('click', () => {
-        const name = favNameInput.value.trim();
-        if (!name) return alert('名前を入力してください');
+    // Save Button Handler
+    if (saveCurrentBtn) {
+        saveCurrentBtn.addEventListener('click', () => {
+            const name = prompt('この検索条件に名前を付けて保存：', stateToDefaultName());
+            if (!name) return; // Cancelled
 
-        const favs = getFavs();
-        // Save current UI state implicitly by using the current selections
-        // Need to ensure we grab from DOM for consistency
-        const currentData = {
-            name: name,
-            mode: currentState.mode,
-            type: currentState.type,
-            area: areaSelect.value,
-            priceMin: priceMinSelect.value,
-            priceMax: priceMaxSelect.value,
-            madori: Array.from(document.querySelectorAll('input[name="madori"]:checked')).map(cb => cb.value)
-        };
+            const favs = getFavs();
+            const currentData = {
+                name: name,
+                mode: currentState.mode,
+                type: currentState.type,
+                area: areaSelect.value,
+                priceMin: priceMinSelect.value,
+                priceMax: priceMaxSelect.value,
+                madori: Array.from(document.querySelectorAll('input[name="madori"]:checked')).map(cb => cb.value)
+            };
 
-        favs.push(currentData);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(favs));
+            favs.push(currentData);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(favs));
 
-        favNameInput.value = '';
-        renderFavList();
-        alert('条件を保存しました');
-    });
+            renderSavedTags();
+            alert(`「${name}」を保存しました`);
+        });
+    }
+
+    function stateToDefaultName() {
+        const areaName = areaSelect.options[areaSelect.selectedIndex].text;
+        return `${areaName}の条件`;
+    }
 
     function getFavs() {
         const raw = localStorage.getItem(STORAGE_KEY);
         return raw ? JSON.parse(raw) : [];
     }
 
-    function renderFavList() {
+    function renderSavedTags() {
         const favs = getFavs();
-        favList.innerHTML = '';
-        favs.forEach((fav, index) => {
-            const li = document.createElement('li');
-            li.textContent = fav.name;
-            li.addEventListener('click', () => loadFav(fav));
 
-            // Delete btn could be added
-            favList.appendChild(li);
+        if (favs.length === 0) {
+            savedConditionsArea.classList.add('hidden');
+            return;
+        }
+
+        savedConditionsArea.classList.remove('hidden');
+        savedTagsContainer.innerHTML = '';
+
+        favs.forEach((fav, index) => {
+            const tag = document.createElement('button');
+            tag.className = 'saved-tag';
+            tag.innerHTML = `<span class="tag-name">${fav.name}</span><span class="delete-tag" data-index="${index}">×</span>`;
+
+            // Load fav on click (ignore delete btn click)
+            tag.addEventListener('click', (e) => {
+                if (e.target.classList.contains('delete-tag')) {
+                    deleteFav(index);
+                } else {
+                    loadFav(fav);
+                }
+            });
+
+            savedTagsContainer.appendChild(tag);
         });
     }
 
+    function deleteFav(index) {
+        if (!confirm('削除しますか？')) return;
+        const favs = getFavs();
+        favs.splice(index, 1);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(favs));
+        renderSavedTags();
+    }
+
     function loadFav(fav) {
-        // 1. If mode differs, switch first?
-        // Ideally we should jump to search view with correct mode
-        // For simplicity, we just assume user is in correct flow or force it
-
-        // Set state
-        currentState.mode = fav.mode;
-        currentState.type = fav.type;
-
-        // Find label for title 
-        // (A bit hacky without a proper map, but let's just use generic text)
-        navigateToSearch(fav.mode, fav.type, fav.name);
-
         // Apply values
-        areaSelect.value = fav.area;
-        priceMinSelect.value = fav.priceMin;
-        priceMaxSelect.value = fav.priceMax;
+        if (fav.area) areaSelect.value = fav.area;
+        if (fav.priceMin) priceMinSelect.value = fav.priceMin;
+        if (fav.priceMax) priceMaxSelect.value = fav.priceMax;
 
         // Apply checkboxes
         document.querySelectorAll('input[name="madori"]').forEach(cb => {
-            cb.checked = fav.madori.includes(cb.value);
+            cb.checked = fav.madori && fav.madori.includes(cb.value);
         });
 
-        favDropdown.classList.add('hidden');
+        // Ensure state is updated (though executeSearch reads from DOM, it's safer)
+        currentState.area = areaSelect.value;
+        // Scroll to search button to encourage action
+        searchButton.scrollIntoView({ behavior: 'smooth' });
+
+        // Highligh effect
+        document.querySelector('.form-container').animate([
+            { transform: 'scale(1)' },
+            { transform: 'scale(1.02)' },
+            { transform: 'scale(1)' }
+        ], { duration: 300 });
     }
 });

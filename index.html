@@ -81,6 +81,12 @@
         <main id="view-search" class="view">
             <h2 id="search-title" class="section-title">条件設定</h2>
 
+            <!-- 保存済み条件エリア (New) -->
+            <div id="saved-conditions-area" class="saved-area hidden">
+                <p class="saved-label">よく使う条件 (タップで呼出)</p>
+                <div id="saved-tags" class="tags-container"></div>
+            </div>
+
             <div class="form-container">
                 <!-- エリア選択 -->
                 <div class="form-group">
@@ -135,6 +141,12 @@
                         検索結果を表示
                         <span class="material-icons">search</span>
                     </button>
+
+                    <button id="save-current-btn" class="secondary-button">
+                        この条件を保存する
+                        <span class="material-icons">bookmark_add</span>
+                    </button>
+
                     <!-- 検索結果リンク表示エリア -->
                     <div id="result-links" class="result-links-container hidden">
                         <h3>以下のリンクから検索結果へ飛べます</h3>

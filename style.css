@@ -358,3 +358,79 @@ select {
 .link-btn .site-name {
     font-size: 1.1rem;
 }
+
+/* Saved Conditions Area */
+.saved-area {
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 12px;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.saved-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.saved-tag {
+    background-color: #F8BBD0;
+    /* Light pink */
+    color: var(--primary-dark);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.saved-tag:active {
+    transform: scale(0.95);
+}
+
+.delete-tag {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+/* Secondary Button */
+.secondary-button {
+    width: 100%;
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    margin-top: 16px;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.secondary-button:active {
+    background-color: #FCE4EC;
+}
