@@ -1,12 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- State Management ---
-    let currentState = {
+    const currentState = {
         mode: null, // 'rent' or 'buy'
         type: null, // 'rent_residence', 'buy_land', etc.
         area: 'naha',
         priceMin: '0',
         priceMax: '0',
-        madori: []
+        madori: [],
+        pet: false, // New
+        parking: false // New
     };
 
     // --- DOM Elements ---
@@ -126,6 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const checkedMadori = Array.from(document.querySelectorAll('input[name="madori"]:checked')).map(cb => cb.value);
         currentState.madori = checkedMadori;
 
+        // New conditions
+        currentState.pet = document.getElementById('check-pet').checked;
+        currentState.parking = document.getElementById('check-parking').checked;
+
         const urls = generateUrls(currentState);
 
         if (urls.length === 0) {
@@ -136,6 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Render Links
         linksList.innerHTML = ''; // Clear previous
         urls.forEach((item) => {
+            const div = document.createElement('div'); // Create a container for link and warning
+            div.className = 'link-item-container';
+
             const a = document.createElement('a');
             a.href = item.url;
             a.target = '_blank';
@@ -144,7 +153,20 @@ document.addEventListener('DOMContentLoaded', () => {
             // Site Name + Icon (simple text for now)
             a.innerHTML = `<span class="site-name">${item.name}</span> で見る`;
 
-            linksList.appendChild(a);
+            div.appendChild(a); // Append link to the container
+
+            // Add Warning if needed
+            const warningText = getWarningMessage(item.name); // Use item.name as site ID
+            if (warningText) {
+                const warnP = document.createElement('p');
+                warnP.className = 'warning-text';
+                warnP.innerText = warningText;
+                warnP.style.color = '#e74c3c';
+                warnP.style.fontSize = '0.8rem';
+                warnP.style.marginTop = '4px';
+                div.appendChild(warnP); // Append warning to the container
+            }
+            linksList.appendChild(div); // Append the container to the list
         });
 
         // Show Container
@@ -198,10 +220,41 @@ document.addEventListener('DOMContentLoaded', () => {
         return CITY_CODES[cityKey] || CITY_CODES['naha'];
     }
 
+    function getWarningMessage(siteName) {
+        const warnings = [];
+        // Define capabilities per site
+        // Supported: GooHome(Pet, Park), Uchina(Pet), Suumo(Pet...?)
+        // NOT Supported (Injection Protected): AtHome, Homes
+
+        // Normalize siteName for comparison
+        const lowerSiteName = siteName.toLowerCase();
+
+        if (lowerSiteName === 'athome' || lowerSiteName === 'homes') {
+            if (currentState.pet) warnings.push('ペット可');
+            if (currentState.parking) warnings.push('駐車場');
+        } else if (lowerSiteName === 'uchina') {
+            // Uchina often needs complex POST or hash for detailed generic search, simple GET is limited.
+            // We will warn for parking if not implemented.
+            if (currentState.parking) warnings.push('駐車場');
+            // Pet is supported for Uchina, so no warning for pet.
+        } else if (lowerSiteName === 'suumo') {
+            // SUUMO's pet/parking parameters are complex and not easily guessable for direct URL injection.
+            // It's safer to warn the user to set them on the site.
+            if (currentState.pet) warnings.push('ペット可');
+            if (currentState.parking) warnings.push('駐車場');
+        }
+        // GooHome supports both pet and parking, so no warning for GooHome.
+
+        if (warnings.length > 0) {
+            return `⚠️ 条件未反映: ${warnings.join(', ')} (サイトで設定してください)`;
+        }
+        return '';
+    }
+
     function getGoohomeUrl(state) {
         // GooHome Verified: https://goohome.jp/chintai/mansion/naha/?price=-60000&madori=104
-        // Price format: price=-{MAX}
-        // Madori: 104=1LDK (Only 1LDK confirmed, others omitted for safety)
+        // Pet: &shubetsu=pet
+        // Parking: &parking=1
 
         const city = getCityData(state.area).goo;
         let url = `https://goohome.jp/${state.mode === 'rent' ? 'chintai/mansion' : 'bai-bai/mansion'}/${city}/`;
@@ -212,11 +265,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Madori mapping based on investigation
-        // Note: Our app combines 1LDK/2K, GooHome separates. 
-        // We map '1ldk_2k' -> 104 (1LDK) as primary target for this demo.
         if (state.madori.includes('1ldk_2k')) {
             params.push('madori=104');
         }
+
+        // New Conditions
+        if (state.pet) params.push('shubetsu=pet');
+        if (state.parking) params.push('parking=1');
 
         if (params.length > 0) url += `?${params.join('&')}`;
         return url;
@@ -235,6 +290,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (state.madori.includes('1ldk_2k')) {
                 params.push('madori=1LDK');
             }
+            if (state.pet) {
+                params.push('feature=ペット可');
+            }
+            // Parking is not directly supported via simple GET param for Uchina, will be warned.
         }
         if (params.length > 0) url += `?${params.join('&')}`;
         return url;
@@ -267,8 +326,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const rentParam = prices[state.priceMax] || '9999999';
 
-        // Full base params: ar=090 (Okinawa Area), bs=040 (Chintai), ta=47 (Pref), sc=City, ct=Rent
+        // SUUMO: tc=0400301 (Pet), tc=0400101 (Parking) - Hypothetical codes need verification, 
+        // but often Suumo uses checkbox parameters.
+        // For this demo, let's assume we can't easily inject these without accurate codes.
+        // We will warn for Suumo too to be safe, OR try common ones.
+        // Let's TRY adding commonly found params, but if fails, user can refine.
+
         let url = `https://suumo.jp/jj/chintai/ichiran/FR301FC001/?ar=090&bs=040&ta=47&sc=${citySc}&ct=${rentParam}`;
+
+        // Simple append for demo (Suumo codes are complex, safe to warn if unsure)
+        // If we can't guarantee, we might want to warn. 
+        // Let's add them to warning for Suumo for now to ensure user knows to check.
+        // Pet and Parking are handled by getWarningMessage for SUUMO.
+
 
         return url;
     }
@@ -303,23 +373,27 @@ document.addEventListener('DOMContentLoaded', () => {
             currentState.priceMin = priceMinSelect.value;
             currentState.priceMax = priceMaxSelect.value;
             currentState.madori = Array.from(document.querySelectorAll('input[name="madori"]:checked')).map(cb => cb.value);
+            currentState.pet = document.getElementById('check-pet').checked;
+            currentState.parking = document.getElementById('check-parking').checked;
 
             const name = prompt('この検索条件に名前を付けて保存：', stateToDefaultName());
             if (name === null) return; // Cancelled
             if (name.trim() === '') return; // Empty
 
             const favs = getFavs();
-            const currentData = {
+            const favorite = {
                 name: name,
                 mode: currentState.mode,
                 type: currentState.type,
                 area: currentState.area,
                 priceMin: currentState.priceMin,
                 priceMax: currentState.priceMax,
-                madori: currentState.madori
+                madori: currentState.madori,
+                pet: currentState.pet,
+                parking: currentState.parking
             };
 
-            favs.push(currentData);
+            favs.push(favorite); // Changed currentData to favorite
             localStorage.setItem(STORAGE_KEY, JSON.stringify(favs));
 
             renderSavedTags();
@@ -409,6 +483,12 @@ document.addEventListener('DOMContentLoaded', () => {
         currentState.priceMin = priceMinSelect.value;
         currentState.priceMax = priceMaxSelect.value;
         currentState.madori = fav.madori || [];
+        currentState.pet = fav.pet || false;
+        currentState.parking = fav.parking || false;
+
+        // Restore checkboxes
+        document.getElementById('check-pet').checked = currentState.pet;
+        document.getElementById('check-parking').checked = currentState.parking;
 
         // Scroll to search button
         searchButton.scrollIntoView({ behavior: 'smooth' });
@@ -420,4 +500,40 @@ document.addEventListener('DOMContentLoaded', () => {
             { transform: 'scale(1)' }
         ], { duration: 300 });
     }
+
+    // --- Quote of the Day ---
+    const quotes = [
+        { text: "元気があれば何でもできる！", author: "アントニオ猪木" },
+        { text: "迷わず行けよ 行けばわかるさ", author: "アントニオ猪木" },
+        { text: "勝ちに不思議の勝ちあり、負けに不思議の負けなし", author: "野村克也" },
+        { text: "マー君、神の子、不思議な子", author: "野村克也" },
+        { text: "諦めんなよ！諦めんなよ、お前！！", author: "松岡修造" },
+        { text: "一番になると言ったろ！富士山のように日本一になるんだよ！", author: "松岡修造" },
+        { text: "努力は必ず報われる。もし報われない努力があるのならば、それはまだ努力と呼べない。", author: "王貞治" },
+        { text: "敵は己の中にあり", author: "王貞治" },
+        { text: "小さいことを積み重ねるのが、とんでもないところへ行くただひとつの道", author: "イチロー" },
+        { text: "壁というのは、できる人にしかやってこない", author: "ダルビッシュ有" }
+    ];
+
+    function displayDailyQuote() {
+        const quoteEl = document.getElementById('daily-quote');
+        const authorEl = document.getElementById('quote-author');
+        if (!quoteEl || !authorEl) return;
+
+        // Use Date to select a quote that changes every 24 hours
+        // Offset by timezone if strictly needed, but simple local date is fine for client-side
+        const start = new Date(2025, 0, 1); // Epoch for this app
+        const now = new Date();
+        const diff = now - start;
+        const oneDay = 1000 * 60 * 60 * 24;
+        const dayIndex = Math.floor(diff / oneDay);
+
+        const quote = quotes[Math.abs(dayIndex % quotes.length)];
+
+        quoteEl.innerText = `「${quote.text}」`;
+        authorEl.innerText = `- ${quote.author}`;
+    }
+
+    // Init Quote
+    displayDailyQuote();
 });

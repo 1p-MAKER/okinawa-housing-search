@@ -19,9 +19,20 @@
 }
 
 body {
-    background-color: var(--background-color);
-    color: var(--text-primary);
-    line-height: 1.5;
+    font-family: "Mochiy Pop P One", sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f4f8;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+    text-align: center;
+    color: #2c3e50;
+    font-family: "Mochiy Pop P One", sans-serif;
 }
 
 .app-container {
@@ -399,6 +410,60 @@ select {
 
 .saved-tag:active {
     transform: scale(0.95);
+}
+
+.app-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.app-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: white;
+    /* Requested White Text */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer Quotes */
+.app-footer {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+    border-top: 2px dashed #ddd;
+    color: #7f8c8d;
+}
+
+.quote-box {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    display: inline-block;
+    max-width: 90%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+#daily-quote {
+    font-size: 1.3rem;
+    /* Slightly larger for emphasis */
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 5px;
+    font-family: "Shippori Mincho", serif;
+    /* Brush/Mincho style */
+    line-height: 1.8;
+}
+
+#quote-author {
+    font-size: 0.9rem;
+    color: #e67e22;
+    /* Accent color */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    /* Standard Sans */
+    margin-top: 5px;
 }
 
 .delete-tag {

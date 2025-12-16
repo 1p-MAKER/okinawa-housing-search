@@ -2,17 +2,19 @@
 <html lang="ja">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>沖縄不動産一括検索</title>
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Shippori+Mincho:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=3">
 </head>
 
 <body>
     <div class="app-container">
         <!-- ヘッダー -->
         <header class="app-header">
-            <h1>沖縄不動産一括検索</h1>
+            <h1>まくぶーらいふ</h1>
             <div id="header-controls" class="hidden">
                 <button id="back-button" class="icon-button">
                     <span class="material-icons">arrow_back</span> 戻る
@@ -125,6 +127,15 @@
                     </div>
                 </div>
 
+                <!-- その他条件 (New) -->
+                <div id="other-conditions-group" class="form-group">
+                    <label>こだわり条件</label>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-label"><input type="checkbox" id="check-pet"> ペット可 🐶</label>
+                        <label class="checkbox-label"><input type="checkbox" id="check-parking"> 駐車場あり 🚗</label>
+                    </div>
+                </div>
+
                 <!-- フェーズ3: 検索実行ボタン -->
                 <div class="action-area">
                     <button id="search-button" class="primary-button">
@@ -145,11 +156,20 @@
                 </div>
             </div>
         </main>
+
+        <!-- Footer w/ Quotes -->
+        <footer class="app-footer">
+            <div class="quote-box">
+                <p>今日の一言</p>
+                <p id="daily-quote">Loading...</p>
+                <p id="quote-author"></p>
+            </div>
+        </footer>
     </div>
 
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="script.js?v=2"></script>
+    <script src="script.js?v=3"></script>
 </body>
 
 </html>
