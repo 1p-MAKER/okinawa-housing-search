@@ -552,3 +552,15 @@ select {
 .secondary-button:active {
     background-color: #FCE4EC;
 }
+
+/* Warning Text */
+.warning-text {
+    color: #E91E63;
+    font-size: 0.8rem;
+    margin-top: 4px;
+    font-weight: bold;
+    background-color: #fff0f5;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}

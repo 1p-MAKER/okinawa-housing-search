@@ -222,31 +222,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getWarningMessage(siteName) {
         const warnings = [];
-        // Define capabilities per site
-        // Supported: GooHome(Pet, Park), Uchina(Pet), Suumo(Pet...?)
-        // NOT Supported (Injection Protected): AtHome, Homes
-
-        // Normalize siteName for comparison
         const lowerSiteName = siteName.toLowerCase();
 
-        if (lowerSiteName === 'athome' || lowerSiteName === 'homes') {
+        // サイトごとの検索条件反映状況定義
+        // GooHome: ペット(shubetsu=pet), 駐車場(parking=1) -> OK
+        // Uchina: ペット(feature=ペット可) -> OK, 駐車場 -> 未対応(GET)
+        // Others: 基本的に詳細条件はURLパラメータで渡せない(スクレイピング対策等で複雑なため)
+
+        if (lowerSiteName === 'athome' || lowerSiteName === 'homes' || lowerSiteName === 'suumo') {
             if (currentState.pet) warnings.push('ペット可');
             if (currentState.parking) warnings.push('駐車場');
         } else if (lowerSiteName === 'uchina') {
-            // Uchina often needs complex POST or hash for detailed generic search, simple GET is limited.
-            // We will warn for parking if not implemented.
-            if (currentState.parking) warnings.push('駐車場');
-            // Pet is supported for Uchina, so no warning for pet.
-        } else if (lowerSiteName === 'suumo') {
-            // SUUMO's pet/parking parameters are complex and not easily guessable for direct URL injection.
-            // It's safer to warn the user to set them on the site.
-            if (currentState.pet) warnings.push('ペット可');
             if (currentState.parking) warnings.push('駐車場');
         }
-        // GooHome supports both pet and parking, so no warning for GooHome.
 
         if (warnings.length > 0) {
-            return `⚠️ 条件未反映: ${warnings.join(', ')} (サイトで設定してください)`;
+            return `※条件未反映: ${warnings.join('・')} (サイト側で指定してください)`;
         }
         return '';
     }
