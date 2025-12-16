@@ -300,25 +300,32 @@ document.addEventListener('DOMContentLoaded', () => {
     // Save Button Handler
     if (saveCurrentBtn) {
         saveCurrentBtn.addEventListener('click', () => {
+            // Force update state from DOM first!
+            currentState.area = areaSelect.value;
+            currentState.priceMin = priceMinSelect.value;
+            currentState.priceMax = priceMaxSelect.value;
+            currentState.madori = Array.from(document.querySelectorAll('input[name="madori"]:checked')).map(cb => cb.value);
+
             const name = prompt('この検索条件に名前を付けて保存：', stateToDefaultName());
-            if (!name) return; // Cancelled
+            if (name === null) return; // Cancelled
+            if (name.trim() === '') return; // Empty
 
             const favs = getFavs();
             const currentData = {
                 name: name,
                 mode: currentState.mode,
                 type: currentState.type,
-                area: areaSelect.value,
-                priceMin: priceMinSelect.value,
-                priceMax: priceMaxSelect.value,
-                madori: Array.from(document.querySelectorAll('input[name="madori"]:checked')).map(cb => cb.value)
+                area: currentState.area,
+                priceMin: currentState.priceMin,
+                priceMax: currentState.priceMax,
+                madori: currentState.madori
             };
 
             favs.push(currentData);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(favs));
 
             renderSavedTags();
-            alert(`「${name}」を保存しました`);
+            alert(`「${name}」を保存しました\n次回から上部のボタンで呼び出せます`);
         });
     }
 
