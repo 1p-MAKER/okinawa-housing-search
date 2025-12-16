@@ -377,22 +377,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function loadFav(fav) {
-        // Apply values
+        // 1. Restore Mode/Type Context first
+        const savedMode = fav.mode;
+        const savedType = fav.type;
+        const savedName = fav.name || '保存された条件';
+
+        if (savedMode && savedType) {
+            // This function sets up the form options (setupPriceOptions) and visible fields
+            navigateToSearch(savedMode, savedType, savedName);
+        }
+
+        // 2. Apply values (Now that options are built for the correct mode)
         if (fav.area) areaSelect.value = fav.area;
+
+        // Timeout optional but safe for rendering, sticking to sync for now.
         if (fav.priceMin) priceMinSelect.value = fav.priceMin;
         if (fav.priceMax) priceMaxSelect.value = fav.priceMax;
 
-        // Apply checkboxes
-        document.querySelectorAll('input[name="madori"]').forEach(cb => {
-            cb.checked = fav.madori && fav.madori.includes(cb.value);
-        });
+        // 3. Apply checkboxes
+        // First uncheck all to start fresh
+        document.querySelectorAll('input[name="madori"]').forEach(cb => cb.checked = false);
 
-        // Ensure state is updated (though executeSearch reads from DOM, it's safer)
+        if (fav.madori && Array.isArray(fav.madori)) {
+            document.querySelectorAll('input[name="madori"]').forEach(cb => {
+                if (fav.madori.includes(cb.value)) cb.checked = true;
+            });
+        }
+
+        // 4. Update Global CurrentState to match visual state
+        currentState.mode = savedMode;
+        currentState.type = savedType;
         currentState.area = areaSelect.value;
-        // Scroll to search button to encourage action
+        currentState.priceMin = priceMinSelect.value;
+        currentState.priceMax = priceMaxSelect.value;
+        currentState.madori = fav.madori || [];
+
+        // Scroll to search button
         searchButton.scrollIntoView({ behavior: 'smooth' });
 
-        // Highligh effect
+        // Highlight effect
         document.querySelector('.form-container').animate([
             { transform: 'scale(1)' },
             { transform: 'scale(1.02)' },
