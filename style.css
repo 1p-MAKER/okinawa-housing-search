@@ -56,6 +56,16 @@ h3 {
     position: sticky;
     top: 0;
     z-index: 100;
+    position: relative;
+    /* Ensure relative positioning for absolute children */
+}
+
+#app-version {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .app-header h1 {
