@@ -82,14 +82,30 @@ h3 {
 }
 
 .icon-button {
-    background: none;
-    border: none;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     color: white;
-    font-size: 1rem;
+    font-size: 0.95rem;
     display: flex;
     align-items: center;
+    gap: 6px;
     cursor: pointer;
     font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 50px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.icon-button:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.icon-button:active {
+    transform: translateY(0);
 }
 
 .text-button {

@@ -9,14 +9,14 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Shippori+Mincho:wght@500;700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2.4">
+    <link rel="stylesheet" href="style.css?v=2.7">
 </head>
 
 <body>
     <div class="app-container">
         <!-- ヘッダー -->
         <header class="app-header">
-            <span id="app-version">v2.5 (Fixed)</span>
+            <span id="app-version">v2.7</span>
             <h1 id="app-title">まくぶーらいふ</h1>
             <div id="header-controls" class="hidden">
                 <button id="back-button" class="icon-button">
@@ -725,8 +725,8 @@
             displayDailyQuote();
 
             // --- VISUAL READY INDICATOR ---
-            document.getElementById('app-version').style.color = '#00ff00';
-            document.getElementById('app-version').textContent = 'v2.6 (System Ready)';
+            document.getElementById('app-version').style.color = 'rgba(255,255,255,0.8)'; // Reset color
+            document.getElementById('app-version').textContent = 'v2.7';
         };
 
         // --- Bootloader ---
