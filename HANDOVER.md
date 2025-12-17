@@ -1,39 +1,39 @@
-# プロジェクト引き継ぎマニュアル: 沖縄不動産一括検索
+# Handover Document: まくぶーらいふ (Okinawa Housing Search)
 
-## 1. 基本情報
-- **アプリ名**: 沖縄不動産一括検索 (Okinawa Housing Search)
-- **リポジトリURL**: https://github.com/1p-MAKER/okinawa-housing-search
-- **公開URL**: https://1p-maker.github.io/okinawa-housing-search/
-- **技術スタック**:
-    - HTML5, Vanilla CSS, Vanilla JavaScript (フレームワークなしの軽量設計)
-    - GitHub Pages デプロイ
+## Status: v2.8 (Stable & Deployed)
+**Last Updated:** 2025-12-17
+**Deployment:** GitHub Pages (Check visible version: v2.8)
 
-## 2. 現在のステータス
-- **実装状況**: 
-    - バージョン 1.0 完成。
-    - 「賃貸/売買」×「エリア」×「金額」×「間取り」を選択し、一括で5サイト（GooHome, うちなーらいふ, SUUMO, AtHome, LIFULL HOME'S）の検索結果を生成する機能が稼働中。
-    - ポップアップブロック回避のため、検索結果は「リンク一覧」として表示する方式を採用。
-    - ユーザーによる「検索条件の保存機能（LocalStorage利用）」を実装済み。
-- **既知の課題**:
-    - 特になし（直近のバグは解消済み）。
-    - AtHomeとHOME'Sはパラメータインジェクション対策が厳格なため、検索条件をURLに埋め込めず「エリアトップ」を表示する仕様となっている（仕様通りの挙動）。
+## 🚨 Critical Architectural Change (v2.6+)
+To resolve persistent browser caching and script loading issues on the user's device, **the JavaScript logic has been moved INLINE into `index.html`**.
+*   **Do not edit `script.js` directly.** It is currently unused.
+*   **Edit `<script>` tags at the bottom of `index.html`** for logic changes.
 
-## 3. 直近の変更点
-- **UI/UX改善**: 
-    - ポップアップブロック問題を解決するため、`window.open` を廃止し、クリック可能なリンクボタン一覧の生成に変更。
-    - 動かない旧「お気に入りメニュー」をヘッダーから削除。
-    - 検索ボタン下部に「この条件を保存する」ボタンを新設。
-    - 条件入力フォーム上部に「保存した条件（タグ）」を表示し、ワンタップで復元可能にした。
-- **バグ修正**:
-    - `loadFav` 関数を修正。保存された条件を読み込む際、モード（借りる/買う）に応じたプルダウン（家賃リスト）の再構築が行われるようにし、正しく値をセットできるように改修。
-    - スマホブラウザのキャッシュ問題解決のため、CSS/JS読み込みタグに `?v=2` を付与。
+## Project Overview
+Unified real estate search portal for Okinawa. Generates search URLs for GooHome, Uchina Life, Suumo, etc.
 
-## 4. 次への申し送り・ロードマップ
-- **次回着手推奨**:
-    - 特になし。現在は安定稼働中。
-- **将来の実装アイデア**:
-    - **エリアの複数選択**: 現在は単一選択だが、隣接エリアもまとめて見たい需要があるかも。
-    - **細かい条件追加**: 「ペット可」「駐車場あり」などのパラメータ対応（各サイトのURL解析が必要）。
-    - **UIリッチ化**: エリア選択を地図から選べるようにするなど。
+## Technical Stack
+*   **Core:** Single HTML file (`index.html`) + External CSS (`style.css`).
+*   **Hosting:** GitHub Pages.
+*   **No Build Process:** Edit and push.
 
-このファイルを次の開発環境で読み込めば、スムーズに開発を再開できます。
+## Recent Changes
+*   **v2.8 (UI):** Back button moved to **Top-Left** (absolute positioning).
+*   **v2.7 (UI):** Back button redesigned with **Glassmorphism** (blur, rounded).
+*   **v2.6 (System):** **Inlined `script.js`** to `index.html` to fix "Unresponsive Buttons" bug caused by caching/loading race conditions. Added "System Ready" visual indicator.
+*   **v2.5 (Fix):** Fixed `initApp` scope error that caused app crash.
+
+## Key Files
+*   [index.html](file:///Users/the1/.gemini/antigravity/scratch/okinawa-housing-search/index.html): **MAIN FILE.** Contains HTML structure AND JavaScript logic (bottom).
+*   [style.css](file:///Users/the1/.gemini/antigravity/scratch/okinawa-housing-search/style.css): Styling.
+    *   *Note:* Back button uses `.icon-button` class with `backdrop-filter`.
+
+## Watchlist for Next Agent
+1.  **Layout**: User requires **"Natural Scrolling"** (Legacy behavior). Do not implement `overscroll-behavior: none` or fixed viewports.
+2.  **Logic Maintenance**: If the inline script becomes too large, consider moving back to external `script.js` BUT you must ensure robust cache-busting (e.g., `script.js?v=2.9`) and verify it works on the user's specific environment which seems prone to strong caching.
+3.  **URL Generation**: Logic for 5 sites is complex. Verify `generateUrls()` function in `index.html` before changing.
+
+## User Preferences
+*   **Back Button**: Must be on the **Left**.
+*   **Design**: Likes "Glassmorphism" / Premium feel.
+*   **Communication**: Prefers direct confirmation that the site works (vX.X check).
