@@ -8,6 +8,7 @@
 To resolve persistent browser caching and script loading issues on the user's device, **the JavaScript logic has been moved INLINE into `index.html`**.
 *   **Do not edit `script.js` directly.** It is currently unused.
 *   **Edit `<script>` tags at the bottom of `index.html`** for logic changes.
+*   **CACHE WARNING:** The user environment caches aggressively. **Always Force Reload** (Ctrl+F5 / Cmd+Shift+R) or clear cache to see changes. If the user says "no change", assume it's a cache issue.
 
 ## Project Overview
 Unified real estate search portal for Okinawa. Generates search URLs for GooHome, Uchina Life, Suumo, etc.
