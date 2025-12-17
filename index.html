@@ -16,159 +16,158 @@
     <div class="app-container">
         <!-- ヘッダー -->
         <header class="app-header">
-            <header class="app-header">
-                <span id="app-version">v2.4</span>
-                <h1 id="app-title">まくぶーらいふ</h1>
-                <div id="header-controls" class="hidden">
-                    <button id="back-button" class="icon-button">
-                        <span class="material-icons">arrow_back</span> 戻る
+            <span id="app-version">v2.4.1</span>
+            <h1 id="app-title">まくぶーらいふ</h1>
+            <div id="header-controls" class="hidden">
+                <button id="back-button" class="icon-button">
+                    <span class="material-icons">arrow_back</span> 戻る
+                </button>
+            </div>
+        </header>
+
+        <!-- フェーズ1: トップ画面 (種別選択) -->
+        <main id="view-home" class="view active">
+            <div class="category-group">
+                <h2 class="category-title">借りる</h2>
+                <div class="button-grid">
+                    <button class="type-btn" data-type="rent_residence" data-mode="rent">
+                        <span class="icon">🏠</span>
+                        <span class="label">住居用</span>
+                    </button>
+                    <button class="type-btn" data-type="rent_business" data-mode="rent">
+                        <span class="icon">🏢</span>
+                        <span class="label">事業用</span>
+                    </button>
+                    <button class="type-btn" data-type="rent_land" data-mode="rent">
+                        <span class="icon">🌲</span>
+                        <span class="label">土地</span>
+                    </button>
+                    <button class="type-btn" data-type="rent_parking" data-mode="rent">
+                        <span class="icon">🚗</span>
+                        <span class="label">駐車場</span>
                     </button>
                 </div>
-            </header>
+            </div>
 
-            <!-- フェーズ1: トップ画面 (種別選択) -->
-            <main id="view-home" class="view active">
-                <div class="category-group">
-                    <h2 class="category-title">借りる</h2>
-                    <div class="button-grid">
-                        <button class="type-btn" data-type="rent_residence" data-mode="rent">
-                            <span class="icon">🏠</span>
-                            <span class="label">住居用</span>
-                        </button>
-                        <button class="type-btn" data-type="rent_business" data-mode="rent">
-                            <span class="icon">🏢</span>
-                            <span class="label">事業用</span>
-                        </button>
-                        <button class="type-btn" data-type="rent_land" data-mode="rent">
-                            <span class="icon">🌲</span>
-                            <span class="label">土地</span>
-                        </button>
-                        <button class="type-btn" data-type="rent_parking" data-mode="rent">
-                            <span class="icon">🚗</span>
-                            <span class="label">駐車場</span>
-                        </button>
+            <div class="category-group">
+                <h2 class="category-title">買う</h2>
+                <div class="button-grid">
+                    <button class="type-btn" data-type="buy_land" data-mode="buy">
+                        <span class="icon">xim</span>
+                        <span class="label">土地</span>
+                    </button>
+                    <button class="type-btn" data-type="buy_mansion" data-mode="buy">
+                        <span class="icon">🏢</span>
+                        <span class="label">マンション</span>
+                    </button>
+                    <button class="type-btn" data-type="buy_house" data-mode="buy">
+                        <span class="icon">🏠</span>
+                        <span class="label">一戸建て</span>
+                    </button>
+                    <button class="type-btn" data-type="buy_other" data-mode="buy">
+                        <span class="icon">💰</span>
+                        <span class="label">収益物件・他</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- フェーズ2: 検索条件入力フォーム -->
+        <main id="view-search" class="view">
+            <h2 id="search-title" class="section-title">条件設定</h2>
+
+            <!-- 保存済み条件エリア (New) -->
+            <div id="saved-conditions-area" class="saved-area hidden">
+                <p class="saved-label">よく使う条件 (タップで呼出)</p>
+                <div id="saved-tags" class="tags-container"></div>
+            </div>
+
+            <div class="form-container">
+                <!-- エリア選択 -->
+                <div class="form-group">
+                    <label>エリア</label>
+                    <select id="area-select">
+                        <option value="naha">那覇市</option>
+                        <option value="urasoe">浦添市</option>
+                        <option value="ginowan">宜野湾市</option>
+                        <option value="okinawa">沖縄市</option>
+                        <option value="tomigusuku">豊見城市</option>
+                        <option value="itoman">糸満市</option>
+                        <option value="nanjo">南城市</option>
+                        <option value="uruma">うるま市</option>
+                        <option value="yonabaru">与那原町</option>
+                        <option value="haebaru">南風原町</option>
+                        <option value="chatan">北谷町</option>
+                        <option value="kadena">嘉手納町</option>
+                        <option value="nishihara">西原町</option>
+                    </select>
+                </div>
+
+                <!-- 価格/家賃選択 -->
+                <div class="form-group">
+                    <label id="price-label">お家賃</label>
+                    <div class="price-range">
+                        <select id="price-min"></select>
+                        <span>〜</span>
+                        <select id="price-max"></select>
                     </div>
                 </div>
 
-                <div class="category-group">
-                    <h2 class="category-title">買う</h2>
-                    <div class="button-grid">
-                        <button class="type-btn" data-type="buy_land" data-mode="buy">
-                            <span class="icon">xim</span>
-                            <span class="label">土地</span>
-                        </button>
-                        <button class="type-btn" data-type="buy_mansion" data-mode="buy">
-                            <span class="icon">🏢</span>
-                            <span class="label">マンション</span>
-                        </button>
-                        <button class="type-btn" data-type="buy_house" data-mode="buy">
-                            <span class="icon">🏠</span>
-                            <span class="label">一戸建て</span>
-                        </button>
-                        <button class="type-btn" data-type="buy_other" data-mode="buy">
-                            <span class="icon">💰</span>
-                            <span class="label">収益物件・他</span>
-                        </button>
+                <!-- 間取り選択 (条件により表示/非表示) -->
+                <div id="madori-group" class="form-group">
+                    <label>間取り (複数選択可)</label>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-label"><input type="checkbox" name="madori" value="1r_1k"> 1R /
+                            1K</label>
+                        <label class="checkbox-label"><input type="checkbox" name="madori" value="1ldk_2k"> 1LDK /
+                            2K</label>
+                        <label class="checkbox-label"><input type="checkbox" name="madori" value="2ldk_3k"> 2LDK /
+                            3K</label>
+                        <label class="checkbox-label"><input type="checkbox" name="madori" value="3ldk_4k"> 3LDK /
+                            4K</label>
+                        <label class="checkbox-label"><input type="checkbox" name="madori" value="4ldk_over">
+                            4LDK〜</label>
                     </div>
                 </div>
-            </main>
 
-            <!-- フェーズ2: 検索条件入力フォーム -->
-            <main id="view-search" class="view">
-                <h2 id="search-title" class="section-title">条件設定</h2>
-
-                <!-- 保存済み条件エリア (New) -->
-                <div id="saved-conditions-area" class="saved-area hidden">
-                    <p class="saved-label">よく使う条件 (タップで呼出)</p>
-                    <div id="saved-tags" class="tags-container"></div>
-                </div>
-
-                <div class="form-container">
-                    <!-- エリア選択 -->
-                    <div class="form-group">
-                        <label>エリア</label>
-                        <select id="area-select">
-                            <option value="naha">那覇市</option>
-                            <option value="urasoe">浦添市</option>
-                            <option value="ginowan">宜野湾市</option>
-                            <option value="okinawa">沖縄市</option>
-                            <option value="tomigusuku">豊見城市</option>
-                            <option value="itoman">糸満市</option>
-                            <option value="nanjo">南城市</option>
-                            <option value="uruma">うるま市</option>
-                            <option value="yonabaru">与那原町</option>
-                            <option value="haebaru">南風原町</option>
-                            <option value="chatan">北谷町</option>
-                            <option value="kadena">嘉手納町</option>
-                            <option value="nishihara">西原町</option>
-                        </select>
-                    </div>
-
-                    <!-- 価格/家賃選択 -->
-                    <div class="form-group">
-                        <label id="price-label">お家賃</label>
-                        <div class="price-range">
-                            <select id="price-min"></select>
-                            <span>〜</span>
-                            <select id="price-max"></select>
-                        </div>
-                    </div>
-
-                    <!-- 間取り選択 (条件により表示/非表示) -->
-                    <div id="madori-group" class="form-group">
-                        <label>間取り (複数選択可)</label>
-                        <div class="checkbox-grid">
-                            <label class="checkbox-label"><input type="checkbox" name="madori" value="1r_1k"> 1R /
-                                1K</label>
-                            <label class="checkbox-label"><input type="checkbox" name="madori" value="1ldk_2k"> 1LDK /
-                                2K</label>
-                            <label class="checkbox-label"><input type="checkbox" name="madori" value="2ldk_3k"> 2LDK /
-                                3K</label>
-                            <label class="checkbox-label"><input type="checkbox" name="madori" value="3ldk_4k"> 3LDK /
-                                4K</label>
-                            <label class="checkbox-label"><input type="checkbox" name="madori" value="4ldk_over">
-                                4LDK〜</label>
-                        </div>
-                    </div>
-
-                    <!-- その他条件 (New) -->
-                    <div id="other-conditions-group" class="form-group">
-                        <label>こだわり条件</label>
-                        <div class="checkbox-grid">
-                            <label class="checkbox-label"><input type="checkbox" id="check-pet"> ペット可 🐶</label>
-                            <label class="checkbox-label"><input type="checkbox" id="check-parking"> 駐車場あり 🚗</label>
-                        </div>
-                    </div>
-
-                    <!-- フェーズ3: 検索実行ボタン -->
-                    <div class="action-area">
-                        <button id="search-button" class="primary-button">
-                            検索結果を表示
-                            <span class="material-icons">search</span>
-                        </button>
-
-                        <button id="save-current-btn" class="secondary-button">
-                            この条件を保存する
-                            <span class="material-icons">bookmark_add</span>
-                        </button>
-
-                        <!-- 検索結果リンク表示エリア -->
-                        <div id="result-links" class="result-links-container hidden">
-                            <h3>以下のリンクから検索結果へ飛べます</h3>
-                            <div id="links-list"></div>
-                        </div>
+                <!-- その他条件 (New) -->
+                <div id="other-conditions-group" class="form-group">
+                    <label>こだわり条件</label>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-label"><input type="checkbox" id="check-pet"> ペット可 🐶</label>
+                        <label class="checkbox-label"><input type="checkbox" id="check-parking"> 駐車場あり 🚗</label>
                     </div>
                 </div>
-            </main>
 
-            <!-- Footer w/ Quotes -->
-            <footer class="app-footer">
-                <div class="quote-box">
-                    <p>今日の一言</p>
-                    <p id="daily-quote">Loading...</p>
-                    <p id="quote-author"></p>
+                <!-- フェーズ3: 検索実行ボタン -->
+                <div class="action-area">
+                    <button id="search-button" class="primary-button">
+                        検索結果を表示
+                        <span class="material-icons">search</span>
+                    </button>
+
+                    <button id="save-current-btn" class="secondary-button">
+                        この条件を保存する
+                        <span class="material-icons">bookmark_add</span>
+                    </button>
+
+                    <!-- 検索結果リンク表示エリア -->
+                    <div id="result-links" class="result-links-container hidden">
+                        <h3>以下のリンクから検索結果へ飛べます</h3>
+                        <div id="links-list"></div>
+                    </div>
                 </div>
-            </footer>
+            </div>
+        </main>
+
+        <!-- Footer w/ Quotes -->
+        <footer class="app-footer">
+            <div class="quote-box">
+                <p>今日の一言</p>
+                <p id="daily-quote">Loading...</p>
+                <p id="quote-author"></p>
+            </div>
+        </footer>
     </div>
 
     <!-- Google Material Icons -->
