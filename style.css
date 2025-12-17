@@ -75,10 +75,13 @@ h3 {
 }
 
 #header-controls {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-top: 8px;
+    z-index: 101;
 }
 
 .icon-button {
