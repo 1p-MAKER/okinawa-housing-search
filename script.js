@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const modeText = mode === 'rent' ? '賃貸' : '売買';
         appTitle.textContent = `【${modeText}】${label}`; // Set Header Title
         searchTitle.textContent = '条件設定'; // Revert to generic
+        priceLabel.textContent = mode === 'rent' ? 'お家賃' : '価格'; // Update Label
 
         // Configure Form
         setupPriceOptions(mode);
