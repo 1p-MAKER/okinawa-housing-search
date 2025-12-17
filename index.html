@@ -160,6 +160,21 @@
             </div>
         </main>
 
+        <!-- Feedback Section (New) -->
+        <div class="feedback-section">
+            <h3 class="feedback-title">🛠 改善要望メモ</h3>
+            <p class="feedback-desc">「ここもっと使いやすくして！」などの要望をメモして、開発者に送ってね。</p>
+            <textarea id="feedback-input" placeholder="例：戻るボタンが押しにくい、〇〇不動産も追加してほしい..."></textarea>
+            <div class="feedback-actions">
+                <button id="save-feedback-btn" class="feedback-btn save">
+                    <span class="material-icons" style="font-size:16px;">save</span> 一時保存
+                </button>
+                <button id="send-feedback-btn" class="feedback-btn send">
+                    <span class="material-icons" style="font-size:16px;">send</span> 要望を送る
+                </button>
+            </div>
+        </div>
+
         <!-- Footer w/ Quotes -->
         <footer class="app-footer">
             <div class="quote-box">
@@ -727,6 +742,47 @@
             // --- VISUAL READY INDICATOR ---
             document.getElementById('app-version').style.color = 'rgba(255,255,255,0.8)'; // Reset color
             document.getElementById('app-version').textContent = 'v2.8 （最終バージョンアップ日：2025/12/18）';
+
+            // --- FEEDBACK LOGIC ---
+            const feedbackInput = document.getElementById('feedback-input');
+            const saveFeedbackBtn = document.getElementById('save-feedback-btn');
+            const sendFeedbackBtn = document.getElementById('send-feedback-btn');
+            const FEEDBACK_KEY = 'okinawa_housing_feedback_draft';
+
+            // Load Draft
+            const savedFeedback = localStorage.getItem(FEEDBACK_KEY);
+            if (savedFeedback) {
+                feedbackInput.value = savedFeedback;
+            }
+
+            // Save Draft Action
+            saveFeedbackBtn.addEventListener('click', () => {
+                const content = feedbackInput.value;
+                localStorage.setItem(FEEDBACK_KEY, content);
+                alert('メモをブラウザに一時保存しました！\n（まだ送信されていません）');
+            });
+
+            // Send Action
+            sendFeedbackBtn.addEventListener('click', () => {
+                const content = feedbackInput.value;
+                if (!content.trim()) {
+                    alert('内容が空です！');
+                    return;
+                }
+
+                // Save before sending
+                localStorage.setItem(FEEDBACK_KEY, content);
+
+                // Create Mailto
+                const subject = encodeURIComponent('まくぶーらいふ改善要望');
+                const body = encodeURIComponent(`【要望内容】\n${content}\n\nSent from まくぶーらいふ`);
+
+                // User hasn't provided email, so we leave 'to' blank or ask user to fill it.
+                // Or we can use a "Copy to Clipboard" approach which is often safer for LINE/DM.
+                // Let's offer a choice or just open mailer.
+                const mailtoLink = `mailto:?subject=${subject}&body=${body}`;
+                window.location.href = mailtoLink;
+            });
         };
 
         // --- Bootloader ---

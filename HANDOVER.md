@@ -17,6 +17,7 @@ Unified real estate search portal for Okinawa. Generates search URLs for GooHome
 *   **Core:** Single HTML file (`index.html`) + External CSS (`style.css`).
 *   **Hosting:** GitHub Pages.
 *   **No Build Process:** Edit and push.
+*   **DEPLOYMENT:** Changes are not visible until pushed. **Always `git push` after editing.**
 
 ## Recent Changes
 *   **v2.8 (UI):** Back button moved to **Top-Left** (absolute positioning).

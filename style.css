@@ -583,3 +583,116 @@ select {
     border-radius: 4px;
     display: inline-block;
 }
+/* Feedback Section */
+.feedback-section {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 90%;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.5s ease;
+}
+
+.feedback-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.3),
+        rgba(255, 255, 255, 0.05)
+    );
+    transform: rotate(30deg);
+    pointer-events: none;
+}
+
+.feedback-title {
+    font-size: 1.1rem;
+    color: var(--primary-dark);
+    margin-bottom: 8px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.feedback-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+#feedback-input {
+    width: 100%;
+    height: 100px;
+    border: 2px solid rgba(233, 30, 99, 0.2);
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 0.95rem;
+    resize: none;
+    margin-bottom: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    transition: all 0.2s;
+    font-family: sans-serif;
+}
+
+#feedback-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+}
+
+.feedback-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.feedback-btn {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.feedback-btn:active {
+    transform: scale(0.95);
+}
+
+.feedback-btn.save {
+    background-color: #fce4ec;
+    color: var(--primary-dark);
+}
+
+.feedback-btn.save:hover {
+    background-color: #f8bbd0;
+}
+
+.feedback-btn.send {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+}
+
+.feedback-btn.send:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(233, 30, 99, 0.4);
+}
