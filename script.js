@@ -89,7 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
         viewHome.classList.remove('active');
         viewSearch.classList.add('active');
         headerControls.classList.remove('hidden');
-        searchTitle.textContent = `条件設定: ${label}`;
+        const modeText = mode === 'rent' ? '賃貸' : '売買';
+        searchTitle.textContent = `条件設定: 【${modeText}】${label}`;
 
         // Configure Form
         setupPriceOptions(mode);
