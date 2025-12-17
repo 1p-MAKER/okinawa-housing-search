@@ -79,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         viewSearch.classList.remove('active');
         viewHome.classList.add('active');
         headerControls.classList.add('hidden');
+        appTitle.textContent = 'まくぶーらいふ'; // Reset Title
     });
 
     function navigateToSearch(mode, type, label) {
@@ -89,8 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
         viewHome.classList.remove('active');
         viewSearch.classList.add('active');
         headerControls.classList.remove('hidden');
+
         const modeText = mode === 'rent' ? '賃貸' : '売買';
-        searchTitle.textContent = `条件設定: 【${modeText}】${label}`;
+        appTitle.textContent = `【${modeText}】${label}`; // Set Header Title
+        searchTitle.textContent = '条件設定'; // Revert to generic
 
         // Configure Form
         setupPriceOptions(mode);
